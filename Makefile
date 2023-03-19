@@ -4,10 +4,10 @@ FLAGS = -Wall -g
 all: main
 
 main: main.c
-	$(CC) $(FLAGS) main.c structures.o -o main
+	$(CC) $(FLAGS) main.c helpers.o -o main
 
-struct:
-	$(CC) $(FLAGS) -c structures.c
+helpers:
+	$(CC) $(FLAGS) -c helpers.c
 
 clean:
 	rm main *.o

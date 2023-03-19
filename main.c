@@ -1,7 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <structures.h>
+#include "types.h"
+#include "helpers.h"
 
 int main(int argc, char *argv[]) {
-    return (argc != 0);
+    int ch;
+    do {
+
+        printf("Continue (1/0)?: ")
+        scanf("%d", &ch);
+    } while(ch);
 }
