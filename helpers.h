@@ -3,5 +3,6 @@
 
 student *makeNode(student *n, string name);
 int insertRow(string name);
+void getRow(string line);
 
 #endif

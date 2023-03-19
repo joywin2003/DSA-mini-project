@@ -4,18 +4,22 @@
 #include "helpers.h"
 
 int main(int argc, char *argv[]) {
-    int ch, op;
+    int op;
     char name[30], line[1024];
     do {
         fgets(line, 1024, stdin);
         op = strtol(line, NULL, 10);
         switch (op) {
+        case 1:
+            printf("Enter letter (A - Z): ");
+            fgets(line, 1024, stdin);
+            getRow(line);
+            break;
         case 2:
             printf("Enter student name: ");
             fgets(name, 30, stdin);
             insertRow(name) ? puts("Success") : puts("Failure");
+            break;
         }
-        printf("Continue (1/0)?: ");
-        scanf("%d", &ch);
-    } while(ch);
+    } while(op != 5);
 }

@@ -4,7 +4,7 @@
 typedef char *string ;
 
 typedef struct student {
-    char name[30], usn[11], phone[11];
+    char name[30], usn[15], phone[15];
     double gpa, attendance;
     struct student *next;
 }student;
