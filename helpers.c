@@ -4,8 +4,6 @@
 #include <ctype.h>
 #include "types.h"
 
-// The hash table is stored as a JSON.
-
 student *table[26] = {NULL};
 char line[1024];
 
