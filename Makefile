@@ -1,7 +1,7 @@
 CC = gcc
 FLAGS = -Wall -g
 
-all: main
+all: helpers main
 
 main: main.c
 	$(CC) $(FLAGS) main.c helpers.o -o main
