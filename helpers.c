@@ -8,7 +8,7 @@ student *table[26] = {NULL};
 char line[1024];
 
 int hash(string name) {
-    return isalpha(name[0]) ? toupper(name[0]) - 65 : 0;
+    return isalpha(name[0]) ? toupper(name[0]) - 'A' : 0;
 }
 
 student *makeNode(student *n, string name) {
@@ -42,4 +42,16 @@ void getRow(string line) {
         printf("%s", cursor->name);
         cursor = cursor->next;
     }
+}
+void printRow(string name){
+    int position = hash(name);
+    student *cursor = table[position];
+    printf("======================================\n");
+    printf("==        STUDENT DETAILS           ==\n");
+    printf("======================================\n");
+    printf("==  STUDENT NAME:   %s  ==\n",cursor->name);
+    printf("==  STUDENT USN :   %s  ==\n",cursor->usn);
+    printf("==  STUDENT PHNO:   %s  ==\n",cursor->phone);
+    printf("======================================\n");
+    
 }
