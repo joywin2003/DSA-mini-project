@@ -17,28 +17,67 @@ typedef struct student{
     struct student *next;
 }student;
 
-
 char *subject_code[10] = {"NULL","21MAC301","21CSE302","21CSE303","21CSE304","21CSE305","21BFE306",
                             "21KSK207","21AEC308","21IOT309"};
 student *table[26] = {NULL};
-char line[1024];
-char *filename = "students.bin";
+
+int hash(const char *name);
+int insertStudent(char *name);
+void getStudent(char *name);
+void marksEntry(char *name);
+void attendanceEntry(char *name);
+void DisplayStudent(char *name);
+student *createStudentNode(char *name);
+
+
+
+void main(){
+    int choice;
+    char  name[MAX_NAME_LEN];
+    printf("==== ENTER YOUR CHOICE ====\n");
+    printf("1. Insert student details\n");
+    printf("2. Find student details\n");
+    printf("3. Enter the student marks\n");
+    printf("4. Enter the student attendance\n");
+    printf("5. Display student performance card\n");
+    printf("6. Exit\n");
+    scanf("%d",&choice);
+    switch (choice){
+    case 1:
+        printf("Enter student name: ");
+        scanf("%s",&name);
+        createStudentNode(name);
+        insertStudent(name);
+        break;
+    case 2:
+        printf("Enter student name: ");
+        scanf("%s",&name);
+        getStudent(name);
+        break;
+    case 3:
+        printf("Enter student name: ");
+        marksEntry(name);
+        break;
+    case 4: 
+        printf("Enter student name: ");
+        attendanceEntry(name);
+        break;
+    case 5: 
+        printf("Enter student name: ");
+        DisplayStudent(name);
+        break;
+    case 6:
+        printf("Exiting...\n");
+        break;
+    default:
+        printf("Invalid choice\n");
+        break;
+    }
+}
+    
 
 int hash(const char *name) {
     return isalpha(name[0]) ? toupper(name[0]) - 'A' : 0;
-}
-student *createStudentNode(char *name) {
-    student *node = malloc(sizeof(student));
-    if (!node) return NULL;
-    strncpy(node->name, name, MAX_NAME_LEN);
-    printf("Enter student USN: ");
-    fgets(node->usn, MAX_USN_LEN, stdin);
-    printf("Enter student Phone: ");
-    fgets(node->phone, MAX_PHONE_LEN, stdin);
-    marksEntry(node);
-    attendanceEntry(node);
-    node->next = NULL;
-    return node;
 }
 
 int insertStudent(char *name) {
@@ -78,7 +117,7 @@ void getStudent(char *name) {
     }
 }
 
-void marksEntry(student *name){
+void marksEntry(char *name){
     int total=0;
     printf("*******MARKS ENTRY*********\n");
     for(int i=1;i<10;i++){
@@ -90,7 +129,7 @@ void marksEntry(student *name){
     name->avg = total/9.0;
 }
 
-void attendanceEntry(student *name){
+void attendanceEntry(char *name){
     double x,y;
     printf("*******ATTENDANCE ENTRY********\n");
     for(int i=1;i<10;i++){
@@ -113,61 +152,28 @@ void DisplayStudent(student *name){
     printf("=====================================\n");
     printf("==       ATTENDANCE DETAILS        ==\n");
     printf("======================================\n");
-    for(int i=1;i<10;i++){
+    for(int i=1;i<SUBJECT_COUNT;i++){
         printf("SUBJECT CODE: %s||ATTENDANCE: %lf%%\n",subject_code[i],name->attendance[i]);
     }
     printf("======================================\n");
     printf("==         MARKS DETAILS            ==\n");
     printf("======================================\n");
-    for(int i=1;i<10;i++){
+    for(int i=1;i<SUBJECT_COUNT;i++){
         printf("||SUBJECT CODE:%s||MAKRS:%lf||\n",subject_code[i],name->marks[i]);
     }
     printf("==   TOTAL PERCENTAGE=%lf%%         ==\n",name->avg);
     
 }
-
-void main(){
-    int choice;
-    char  name[MAX_NAME_LEN];
-    printf("==== ENTER YOUR CHOICE ====\n");
-    printf("1. Insert student details\n");
-    printf("2. Find student details\n");
-    printf("3. Enter the student marks\n");
-    printf("4. Enter the student attendance\n");
-    printf("5. Display student performance card\n");
-    printf("6. Exit\n");
-    scanf("%d",&choice);
-    switch (choice){
-    case 1:
-        printf("Enter student name: ");
-        scanf("%20s",&name);
-        createStudentNode(name);
-        insertStudent(name);
-        break;
-    case 2:
-        printf("Enter student name: ");
-        scanf("%20s",&name);
-        getStudent(name);
-        break;
-    case 3:
-        printf("Enter student name: ");
-        marksEntry(name);
-        break;
-    case 4: 
-        printf("Enter student name: ");
-        attendanceEntry(name);
-        break;
-    case 5: 
-        printf("Enter student name: ");
-        DisplayStudent(name);
-        break;
-    case 6:
-        printf("Exiting...\n");
-        break;
-    default:
-        printf("Invalid choice\n");
-        break;
-    }
+student *createStudentNode(char *name) {
+    student *node = malloc(sizeof(student));
+    if (!node) return NULL;
+    strncpy(node->name, name, MAX_NAME_LEN);
+    printf("Enter student USN: ");
+    fgets(node->usn, MAX_USN_LEN, stdin);
+    printf("Enter student Phone: ");
+    fgets(node->phone, MAX_PHONE_LEN, stdin);
+    marksEntry(node);
+    attendanceEntry(node);
+    node->next = NULL;
+    return node;
 }
-    
-
