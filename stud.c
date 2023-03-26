@@ -21,18 +21,19 @@ char *subject_code[10] = {"NULL","21MAC301","21CSE302","21CSE303","21CSE304","21
                             "21KSK207","21AEC308","21IOT309"};
 student *table[26] = {NULL};
 
+student *createStudentNode(char *name);
 int hash(const char *name);
 int insertStudent(char *name);
-void getStudent(char *name);
-void marksEntry(char *name);
-void attendanceEntry(char *name);
-void DisplayStudent(char *name);
-student *createStudentNode(char *name);
+student * getStudent(char *name);
+void marksEntry(student *name);
+void attendanceEntry(student *name);
+void DisplayStudent(student *name);
 
 
 
 void main(){
     int choice;
+    student head;
     char  name[MAX_NAME_LEN];
     printf("==== ENTER YOUR CHOICE ====\n");
     printf("1. Insert student details\n");
@@ -46,24 +47,30 @@ void main(){
     case 1:
         printf("Enter student name: ");
         scanf("%s",&name);
-        createStudentNode(name);
+        head = createStudentNode(name);
         insertStudent(name);
         break;
     case 2:
         printf("Enter student name: ");
         scanf("%s",&name);
-        getStudent(name);
+        head = getStudent(name);
         break;
     case 3:
         printf("Enter student name: ");
-        marksEntry(name);
+        scanf("%s",&name);
+        head = getStudent(name);
+        marksEntry(head);
         break;
     case 4: 
         printf("Enter student name: ");
-        attendanceEntry(name);
+        scanf("%s",&name);
+        head = getStudent(name);
+        attendanceEntry(head);
         break;
     case 5: 
         printf("Enter student name: ");
+        scanf("%s",&name);
+        head = getStudent(name);
         DisplayStudent(name);
         break;
     case 6:
@@ -75,9 +82,22 @@ void main(){
     }
 }
     
-
 int hash(const char *name) {
     return isalpha(name[0]) ? toupper(name[0]) - 'A' : 0;
+}
+
+student *createStudentNode(char *name) {
+    student *node = malloc(sizeof(student));
+    if (!node) return NULL;
+    strncpy(node->name, name, MAX_NAME_LEN);
+    printf("Enter student USN: ");
+    fgets(node->usn, MAX_USN_LEN, stdin);
+    printf("Enter student Phone: ");
+    fgets(node->phone, MAX_PHONE_LEN, stdin);
+    marksEntry(node);
+    attendanceEntry(node);
+    node->next = NULL;
+    return node;
 }
 
 int insertStudent(char *name) {
@@ -100,14 +120,14 @@ int insertStudent(char *name) {
     return 1;
 }
 
-void getStudent(char *name) {
+student *getStudent(char *name) {
     int position = hash(name);
     student *cursor = table[position];
     int count = 0;
     while (cursor) {
         if (strncmp(cursor->name, name, MAX_NAME_LEN) == 0) {
             printf("Student found with name '%s' \n", name);
-            DisplayStudent(cursor);
+            return cursor;
             count++;
         }
         cursor = cursor->next;
@@ -117,7 +137,7 @@ void getStudent(char *name) {
     }
 }
 
-void marksEntry(char *name){
+void marksEntry(student *name){
     int total=0;
     printf("*******MARKS ENTRY*********\n");
     for(int i=1;i<10;i++){
@@ -129,7 +149,7 @@ void marksEntry(char *name){
     name->avg = total/9.0;
 }
 
-void attendanceEntry(char *name){
+void attendanceEntry(student *name){
     double x,y;
     printf("*******ATTENDANCE ENTRY********\n");
     for(int i=1;i<10;i++){
@@ -163,17 +183,4 @@ void DisplayStudent(student *name){
     }
     printf("==   TOTAL PERCENTAGE=%lf%%         ==\n",name->avg);
     
-}
-student *createStudentNode(char *name) {
-    student *node = malloc(sizeof(student));
-    if (!node) return NULL;
-    strncpy(node->name, name, MAX_NAME_LEN);
-    printf("Enter student USN: ");
-    fgets(node->usn, MAX_USN_LEN, stdin);
-    printf("Enter student Phone: ");
-    fgets(node->phone, MAX_PHONE_LEN, stdin);
-    marksEntry(node);
-    attendanceEntry(node);
-    node->next = NULL;
-    return node;
 }
