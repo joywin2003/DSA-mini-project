@@ -31,7 +31,7 @@ void DisplayStudent(student *name);
 
 
 
-void main(){
+int main(){
     int choice;
     student head;
     char  name[MAX_NAME_LEN];
@@ -46,32 +46,31 @@ void main(){
     switch (choice){
     case 1:
         printf("Enter student name: ");
-        scanf("%s",&name);
-        head = createStudentNode(name);
-        insertStudent(name);
+        scanf("%s",name);
+        head = insertStudent(name);
         break;
     case 2:
         printf("Enter student name: ");
-        scanf("%s",&name);
+        scanf("%s",name);
         head = getStudent(name);
         break;
     case 3:
         printf("Enter student name: ");
-        scanf("%s",&name);
+        scanf("%s",name);
         head = getStudent(name);
-        marksEntry(head);
+        marksEntry(&head);
         break;
     case 4: 
         printf("Enter student name: ");
-        scanf("%s",&name);
+        scanf("%s",name);
         head = getStudent(name);
-        attendanceEntry(head);
+        attendanceEntry(&head);
         break;
     case 5: 
         printf("Enter student name: ");
-        scanf("%s",&name);
+        scanf("%s",name);
         head = getStudent(name);
-        DisplayStudent(name);
+        DisplayStudent(&head);
         break;
     case 6:
         printf("Exiting...\n");
@@ -80,6 +79,7 @@ void main(){
         printf("Invalid choice\n");
         break;
     }
+    return 0;
 }
     
 int hash(const char *name) {
@@ -135,6 +135,7 @@ student *getStudent(char *name) {
     if (count == 0) {
         printf("No student found with name '%s'\n", name);
     }
+    return 0;
 }
 
 void marksEntry(student *name){
@@ -160,7 +161,8 @@ void attendanceEntry(student *name){
     }
 }
 void DisplayStudent(student *name){
-    int position = hash(name);
+    int position = hash(name->name);
+  //  int position = hash(name);
     student *cursor = table[position];
     printf("======================================\n");
     printf("==        STUDENT DETAILS           ==\n");
@@ -184,3 +186,6 @@ void DisplayStudent(student *name){
     printf("==   TOTAL PERCENTAGE=%lf%%         ==\n",name->avg);
     
 }
+
+
+
